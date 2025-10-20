@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews do Anime</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header class="header">
+  <section class="flex">
+    <div class="logo"><a href="home.html">Reviews</a></div>
+    <div class="search-form">
+      <form class="search-bar">
+        <input type="search" id="searchBox" class="box" placeholder="Buscar anime" />
+        <label for="searchBox" class="fas fa-search"></label>
+      </form>
+    </div>
+    <a href="login.html" class="btn"><i class="fas fa-user"></i>Entrar</a>
+  
+   </section>
+</header>
+
+<section class="anime-details">
+  <div class="row">
+    <div class="image">
+      <img id="animeImg" src="images/img-17.jpg" alt="" />
+      
+    </div>
+
+    <div class="content">
+      <h3 id="animeTitle" class="title">One Piece</h3>
+      <p id="animeSynopsis" class="synopsis">A história acompanha a jornada de Monkey D. Luffy e sua tripulação, os Piratas do Chapéu de Palha, em busca do tesouro lendário conhecido como One Piece, com o objetivo de se tornar o próximo Rei dos Piratas.</p>
+      <div class="flex">
+        <p>status: <span id="animeStatus">Em andamento</span></p>
+        <p>studio: <span id="animeStudio">Toei Animation.</span></p>
+        <p>season: <span id="animeSeason">10 sagas</span></p>
+        <p>transmitido: <span id="animeStream"> Fuji TV, Crunchyroll</span></p>
+        <p>episódios: <span id="animeEps">1100 ep</span></p>
+        <p>duração: <span id="animeDur">24m</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="comments-container">
+  <h1 class="heading">comentários</h1>
+  <div class="login-box">
+    <p>Logar para comentar</p>
+    <a href="login.html" class="btn">Logar</a>
+  </div>
+  <div class="comments"></div>
+</section>
+<script>
+async function atualizarBotaoLogin() {
+  const headerLoginBtn = document.querySelector('header .btn[href="login.html"]') || document.querySelector('header .btn');
+  if (!headerLoginBtn) return;
+
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
+
+  if (token && userId) {
+    headerLoginBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i> Sair';
+    headerLoginBtn.href = '#';
+    headerLoginBtn.onclick = (e) => {
+      e.preventDefault();
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      window.location.reload();
+    };
+  } else {
+    headerLoginBtn.innerHTML = '<i class="fas fa-user"></i> Entrar';
+    headerLoginBtn.href = 'login.html';
+    headerLoginBtn.onclick = null;
+  }
+}
+const params = new URLSearchParams(window.location.search);
+const animeName = params.get("anime") || "One Piece";
+const animeImg = params.get("img") || "images/img-17.jpg";
+document.getElementById("animeTitle").innerText = animeName;
+document.getElementById("animeImg").src = animeImg;
+const animeData = {
+  "demon slayers": { synopsis: "Tanjiro Kamado luta contra demônios para salvar sua irmã Nezuko.", studio: "Ufotable", season: "2019", stream: "Crunchyroll", eps: "26" },
+  "no longer allowed in another world": { synopsis: "Um escritor sombrio é transportado para outro mundo, mas rejeita a esperança.", studio: "AtelierPontdarc", season: "2024", stream: "Crunchyroll", eps: "12" },
+  "rising of shield hero": { synopsis: "Naofumi é traído e luta com apenas um escudo para se reerguer.", studio: "Kinema Citrus", season: "2019", stream: "Crunchyroll", eps: "25" },
+  "hunter x hunter": { synopsis: "Gon busca se tornar caçador e encontrar seu pai desaparecido.", studio: "Madhouse", season: "2011", stream: "Crunchyroll", eps: "148" },
+  "my hero academia": { synopsis: "Deku luta para se tornar herói mesmo sem poderes.", studio: "Bones", season: "2016", stream: "Crunchyroll", eps: "138" },
+  "one punch man": { synopsis: "Saitama derrota inimigos com um único soco, mas sente tédio existencial.", studio: "Madhouse", season: "2015", stream: "Netflix", eps: "24" },
+  "blue lock": { synopsis: "Japão cria o projeto Blue Lock para achar o atacante perfeito.", studio: "8bit", season: "2022", stream: "Crunchyroll", eps: "24" },
+  "jujutsu kaisen": { synopsis: "Yuji Itadori enfrenta maldições após ingerir o dedo de Sukuna.", studio: "MAPPA", season: "2020", stream: "Crunchyroll", eps: "47" },
+  "farming life in another world": { synopsis: "Um homem renasce em outro mundo e decide viver como fazendeiro.", studio: "Zero-G", season: "2023", stream: "HiDive", eps: "12" },
+  "black clover": { synopsis: "Asta nasceu sem magia, mas sonha em se tornar o Rei Mago.", studio: "Pierrot", season: "2017", stream: "Crunchyroll", eps: "170" }
+};
+
+const info = animeData[animeName.toLowerCase()];
+if (info) {
+  document.getElementById("animeSynopsis").innerText = info.synopsis;
+  document.getElementById("animeStudio").innerText = info.studio;
+  document.getElementById("animeSeason").innerText = info.season;
+  document.getElementById("animeStream").innerText = info.stream;
+  document.getElementById("animeEps").innerText = info.eps;
+}
+const commentsContainer = document.querySelector(".comments");
+const loginBox = document.querySelector(".login-box");
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+async function buscarFotoUsuario() {
+  try {
+    const res = await fetch(`http://localhost:5000/api/auth/user/${userId}`);
+    if (!res.ok) return 'images/pic-1.png';
+    const user = await res.json();
+    return user.foto ? `http://localhost:5000/uploads/${user.foto}` : 'images/pic-1.png';
+  } catch {
+    return 'images/pic-1.png';
+  }
+}
+
+async function renderCommentBar() {
+  const existingBar = document.querySelector('#comment-bar');
+  if (existingBar) existingBar.remove(); 
+
+  const fotoUser = await buscarFotoUsuario();
+  const bar = document.createElement('div');
+  bar.id = 'comment-bar';
+  bar.className = 'user';
+  bar.innerHTML = `
+    <div class="flex">
+      <img src="${fotoUser}" alt="user">
+      <div style="width:100%">
+        <input id="commentInput" class="input" placeholder="Escreva um comentário" style="width:100%; margin-bottom:8px;">
+        <button id="sendCommentBtn" class="btn">Comentar</button>
+      </div>
+    </div>`;
+  commentsContainer.prepend(bar);
+  const sendBtn = document.getElementById('sendCommentBtn');
+  sendBtn.addEventListener('click', async () => {
+    const text = document.getElementById('commentInput').value.trim();
+    if (!text) return alert('Digite algo para comentar.');
+
+    try {
+      const res = await fetch('http://localhost:5000/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ anime: animeName, text, userId })
+      });
+
+      const data = await res.json();
+      if (res.status === 201) {
+        document.getElementById('commentInput').value = '';
+        await loadComments(); 
+      } else {
+        alert(data.message || 'Erro ao comentar.');
+      }
+    } catch (err) {
+      console.error('Erro ao enviar comentario:', err);
+      alert('Erro ao enviar comentário.');
+    }
+  });
+}
+async function loadComments() {
+  commentsContainer.innerHTML = '';
+
+  if (token && userId) {
+    loginBox.style.display = 'none';
+  } else {
+    loginBox.style.display = 'flex';
+  }
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/reviews/${encodeURIComponent(animeName)}`);
+    const reviews = await res.json();
+
+    if (!Array.isArray(reviews) || reviews.length === 0) {
+      commentsContainer.innerHTML = "<p style='text-align:center;margin-top:10px'>Nenhum comentario ainda. Seja o primeiro</p>";
+    } else {
+      reviews.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'user';
+        const foto = r.userFoto ? `http://localhost:5000/uploads/${r.userFoto}` : 'images/pic-1.png';
+        div.innerHTML = `
+          <div class="flex">
+            <img src="${foto}" alt="">
+            <div><p>${r.userName}</p><span>${new Date(r.createdAt).toLocaleDateString('pt-BR')}</span></div>
+          </div>
+          <p class="text">${r.text}</p>`;
+        commentsContainer.appendChild(div);
+      });
+    }
+    if (token && userId) await renderCommentBar();
+  } catch (err) {
+    console.error('Erro ao carregar comentários:', err);
+    commentsContainer.innerHTML = '<p>Erro ao carregar comentários.</p>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  atualizarBotaoLogin();
+  loadComments();
+});
+</script>
