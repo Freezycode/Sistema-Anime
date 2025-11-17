@@ -1,0 +1,232 @@
+Universidade Católica de Brasília
+Análise e desenvolvimento de Sistemas
+ 
+Maxwell Lucas Santos Silva
+Mateus Vinicius de Oliveira Freire
+Lucas Samuel Soares Reis
+
+   
+Teste do Sistema de site de Animes
+  
+Ceilândia - Distrito Federal
+2025 
+ 
+Objetivo: 
+Este documento de testes apresenta a validação do sistema de site de anime, descrevendo os cenários, procedimentos e resultados obtidos durante a execução dos testes. O objetivo é verificar o correto funcionamento das funcionalidades implementadas, avaliar a estabilidade do sistema e identificar possíveis falhas ou inconsistências. Os testes realizados abrangem desde a interface do usuário até os processos internos de busca, exibição e gerenciamento de conteúdos, garantindo que o sistema opere conforme os requisitos especificados.
+1) Metadados do Ciclo
+Projeto/Sistema**: Plataforma de Reviews de Animes
+Versão testada (build/tag)**: v1.0
+Período de execução**: _20/10/2025 a 05/11/2025_
+Responsável pelo relatório**: _Equipe QA – Mateus Vinicius / Lucas
+Plano de teste de referência**: _PT-ANIME-REVIEWS-2025-11 (rev. 1)
+Ambiente**: Ambiente Local
+Requisitos de base**: _Especificação RS-PAUCB-1.4 (link interno)_
+Substitua pelos seus dados. Esses campos ajudam auditoria e rastreabilidade.
+
+2) Resumo Executivo
+Status do ciclo: _Concluído com pendências menores_
+Confiabilidade para release: _Moderada
+Principais destaques**:Fluxo principal (cadastro , login, acesso ao anime, comentar)
+Cobertura funcional planejada **atingida**.
+2 defeitos reportados (1 alto, 1 médio); 1 corrigidos antes do encerramento do ciclo.
+Performance: Adequada para ambiente local.
+Automação: Os testes foram realizados manualmente.
+Recomendado corrigir futuramente a busca por anime (pendente).
+
+3) Escopo & Itens de Teste
+Escopo coberto: cadastro de usuário,login ,upload de foto de perfil, Listagem de animes cards, acesso à página de detalhes do anime, exibição de comentários, inserção de comentários por usuários logados
+Fora de escopo**: funcionalidade de busca não implementada, editar ou excluir comentários, gerenciamento de perfil do usuário
+4) Ambiente de TesteWindows 10 local, Node.js v18 LTS, Express.js como framework backend, MongoDB local, Front-end em HTML, CSS e JavaScript,Servidor executado via Node + Express (localhost)
+Windows 10, 16 GB RAM, Node.js v18 LTS, Express.js, MongoDB local, servidor executado via localhost.
+Dados: Massa de teste criada manualmente usuários fictícios, lista fixa de animes definidas no próprio código html os detalhes no javascript que são dados estáticos, comentários gerados durante a execução dos testes,upload de fotos de perfil para validar o fluxo completo
+Ferramentas: VS Code para desenvolvimento, GitHub, testes manuais sem uso do Jest, Node.js + Express, MongoDB Compass e tutoriais do youtube para apoio no desenvolvimento do front e do back 
+Impactos 
+Baixa latência
+Ausência de carga real
+Dados totalmente controlados
+Recursos dedicados ao servidor local
+5) Abordagem & Níveis
+Níveis: sistema → funcional → fluxo end-to-end (cadastro → login → card → comentar) → usabilidade
+Técnicas**:testes baseados em requisitos funcionais e verificação manual de regressão nos fluxos principais
+Não-funcionais: avaliação básica de desempenho em ambiente local, e acesso ao comentário somente logado
+
+ 6) Critérios de Entrada/Saída – Status
+| Critério | Descrição | Status |
+
+|---|---|---|| Entrada | Build estável no ambiente local (sem bloqueadores ) | **Atendido** |
+| Entrada | Ambiente local configurado com Node, Express e MongoDB | **Atendido** |
+| Entrada | Requisitos principais e casos de teste definidos | **Atendido** |
+| Saída | 0 defeitos críticos abertos | **Não atendido** (fechados antes do Go) |
+| Saída | ≥ 85% casos executados | **Atendido** (95%) |
+| Saída | KPIs mínimos (funcionalidade principal operante) | **Atendido** |
+---
+## 7) Cronograma: Planejado × Realizado
+| Outubro | Planejado | Realizado | Desvio |
+| Sistema/E2E | 11/11 | 11/11–15/11 | +1d (ambiente) |
+| Performance | 13/11 | 13/11 | +1d |
+| UAT | 14/11 | 14/11 | 0d |
+
+ 8) Métricas do Ciclo (Exemplo preenchido)
+| Métrica | Valor | Observação |
+| Casos planejados | 12 | |
+| Casos executados | 12 | 70% do planejado |
+| **Aprovados** | **9** | |
+| Reprovados | 3 | |
+Bloqueados | 0 | dependência externa |
+Defeitos totais | 2 | 1A/1M/1B |
+Densidade de defeitos** | 0,25 defeitos/caso | 2/12 |
+Cobertura de requisitos** | 90% | 9/10 requisitos testados |
+Cobertura de código** não utilizado |
+DRE** (eficiência remoção) | 66% | 1 removidos antes ÷ (2 + 1 pendente) |
+Defeitos removidos antes da liberação ÷ (removidos + encontrados depois).
+
+9) Resultados por Tipo & Nível
+9.1 Smoke
+- 5/5 cenários críticos OK (carregamento do sistema, visualização dos cards, acesso ao anime, login básico, fluxo de cadastro).
+9.2 Sistema / Funcional
+Casos: 12 planejados / 12 executados / 9 aprovados / 2 reprovados / 0 bloqueados.
+Falhas concentradas em Busca (não implementada e validação fraca de senha
+9.3 Integração
+- Dados locais no front-end, MongoDB local para usuários e comentários e integrações simples entre backend (Express) e frontend: OK
+9.4 Regressão
+- **Testes realizados manualmente (não houve automação).
+Regressão executada nos fluxos principais:Cadastro, Login, Acesso aos cards ,Inserção de comentários.
+Todos os fluxos principais: OK.
+
+### 9.5 UAT
+- 6 cenários críticos validados do ponto de vista final.
+- 1 defeito levantado: falta de feedback visual ao comentar baixa severidade.
+---
+## 10) Testes Não Funcionais (Performance/Segurança)
+### 10.1 Performance (teste manual em ambiente local”)
+- **Carga**:1 usuário simultâneo (ambiente local), navegação completa pelos principais fluxos.
+- **Throughput**: **respostas praticamente imediatas devido ao baixo volume de dados.** (Alta).
+- **Tempo de resposta  p95: 120 ms (SLA ≤ 300 ms) → **OK**.
+- **Erro (%)**: **0%** (SLA ≤ 1%) → **OK**.
+- **Gargalos observados**Nenhum gargalo significativo; apenas o tempo natural de acesso ao arquivo de imagem da foto de perfil.
+**Ação**: em versões futuras, caso o sistema seja ampliado, recomenda-se avaliar teste com volume maior de dados e múltiplos usuários.
+### 10.2 Segurança (varredura passiva – ZAP)
+- **Informativos**: ausência de regras mínimas de senha corrigido no ciclo.Headers de segurança padrão ainda não configurados manualmente no Express.
+**Recomendação**: adicionar `Content-Security-Policy`, `X-Frame-Options`, `X-Content-Type-Options` `proteção contra ataques comuns XSS, MIME sniffing, clickjacking`
+---
+## 11) Defeitos: ausência de regras mínimas de senha, filtro de pesquisa não implementado
+### 11.1 Distribuição
+| Severidade | Qtde |
+|---|---:|
+| **Crítica** | **0** |
+| Alta | 1 |
+| Média | 1 |
+| Baixa | 1 |
+| **Total** | **3** |
+| Status | Qtde |
+|---|---:|
+| **Fechado** | **2** |
+| Em correção | 0 |
+| Aberto | 1 |
+11.2 Top 5 Defeitos (exemplo)
+ID | Título | Sev. | Status | Módulo | Observação |
+
+| BUG-0001 | Barra de busca não realiza filtragem | **Alta** | **Aberto** | Navegação | Funcionalidade presente na interface, porém sem implementação |
+| BUG-0002 | Validação fraca de senha no cadastro_ | **Média** | **Fechado** | Autenticação | Implementada regra mínima de senha |
+Inclua **links de evidência** (prints, HAR, logs), quando possível.
+
+12) Cobertura & Rastreabilidade
+12.1 Matriz de Rastreabilidade (recorte)
+Requisito | Caso(s) de Teste | Defeito(s) | Status |
+
+|R1**: cadastro de usuário | CT-01, CT-02 | BUG-002 | **Aprovado** |
+R2**:login/autenticação | CT-03 |  | **Aprovado** |
+R3**: comentar anime | CT-04, CT-05 |BUG-003 | **Aprovado após fix** |
+R4**:visualizar lista de animes | CT-06 | — | **Aprovado** |
+R5**:buscar anime | CT-07 | — | **Reprovado** |
+R6**:exibir detalhes e comentários | CT-08 | — | **Aprovado** |
+
+12.2 Check ISO 25010 (amostra)
+ Característica | Evidência | Situação |
+
+ Adequação funcional | Casos CT-01..CT-08 | **OK** |
+Eficiência de desempenho | Tempo p95 ≈ 120 ms | **OK** |
+ Compatibilidade | Navegadores (Chrome/Firefox/Edge) | **OK** |
+Usabilidade | UAT – UAT – necessidade de melhoria na busca | **Parcial** |
+Confiabilidade | Sem quedas/crashes observados | **OK** |
+Segurança | Validação de senha e headers pendentes | **Parcial** |
+ Manutenibilidade | Código simples sem automação | **Parcial** |
+Portabilidade | Funciona em qualquer navegador moderno | **OK** |
+---
+## 13) Relatos de Teste (Logs de Execução)
+> **Exemplo de registro** (repita por caso ou por suíte):
+
+- **CT-01 – Realizar cadastro de usuário**
+**Pré-condição**usuário não cadastrado no sistema.
+**Passos**: acessar a tela de cadastro → preencher dados → enviar foto de perfil → confirmar.
+**Resultado esperado**: usuário cadastrado com sucesso e foto salva corretamente.
+**Resultado obtido**: **Aprovado** 
+**Evidência**: 
+**Defeito**:  —.
+
+
+
+- **CT-03 –Login com credenciais válidas**
+**Pré-condição**usuário cadastrado previamente.
+**Passos**: acessar tela de login → inserir e-mail e senha → confirmar..
+**Resultado esperado**:login efetuado com suesso.
+**Resultado obtido**: **Aprovado** 
+**Evidência**: 
+**Defeito**: —
+
+- **CT-05 –Inserir comentário em anime**
+**Pré-condição**usuário logado; anime selecionado na tela de detalhes.
+**Passos**:digitar comentário → enviar → verificar exibição
+**Resultado esperado**:comentário exibido imediatamente com foto e data.
+**Resultado obtido**: **Aprovado** 
+**Evidência**: 
+**Defeito**: —
+
+- **CT-07 –Buscar anime pelo nome**
+**Pré-condição**campo de busca disponível na homepage.
+**Passos**:digitar nome do anime → clicar no ícone da busca.
+**Resultado esperado**:listagem filtrada de acordo com o termo digitado.
+**Resultado obtido**: **Falha** 
+**Evidência**: 
+**Defeito**: vinculado ao BUG-001 — aberto
+
+ 14) Riscos, Desvios e Mitigações
+- **Risco**: falha na funcionalidade de busca pode impactar a navegação do usuário.
+**Mitigação**: implementar a lógica de filtragem na próxima iteração e incluir caso de teste dedicado ao recurso.
+- **Desvio**: filtragem na próxima iteração.
+**Ação**: corrigido durante o ciclo; reforçar testes de regressão nos fluxos que dependem de atualização dinâmica.
+---
+15) Automação – Sumário
+ 15.1 Unit/Component
+- **Framework**: Não utilizado
+- **Cobertura**:—.
+- **Falhas**:3 falhas funcionais identificadas (BUG-001, BUG-002, BUG-003)..
+### 15.2 E2E (Cypress)
+- **Specs**: 32 | todos os testes E2E foram executados manualmente | 
+- **Pipeline CI**: não utilizado, pois o projeto não possui automação integrada..
+- **Tarefas**:validar manualmente o fluxo completo (cadastro → login → card → comentar.
+---
+16) Lições Aprendidas
+- Realizar testes exploratórios durante o desenvolvimento ajudou a identificar problemas cedo e reduziu retrabalho..
+- Testar a interface com usuários reais do grupo mostrou a necessidade de melhorias na usabilidade, especialmente na busca.
+- A falta de automação exigiu maior atenção aos detalhes nos testes manuais, reforçando a importância de documentar cada passo.
+
+- E se preparar e organizar o grupo em tempo hábil para conclusão de novos trabalhos em equipe.
+---
+ 17) Recomendações
+1. Corrigir o BUG-001 (busca) para garantir uma navegação completa e melhorar a experiência do usuário..
+2. Reforçar validações de segurança, incluindo regras mais fortes de senha.
+3. Implementar automação básica para os fluxos principais (cadastro, login e comentários) caso o sistema evolua, reduzindo o esforço manual.
+4. Extender testes de carga para 300 usuários e 30 min, validando estabilidade.
+
+18) Aprovação
+| Papel | Nome | Decisão | Data/Assinatura |
+
+| QA Lead | Mateus Vinicius de Oliveira Freire e Lucas Samuel | **Aprovado com ressalvas** | 14/11/2025 |
+| PO/Negócio | _ Lucas Samuel e Maxwell Lucas | **Aprovado** | 05/11/2025 |
+| Tech Lead | _Mateus Vinicius de Oliveira Freire e Maxwell Lucas | **Aprovado** | 14/11/2025 |
+19) Anexos 
+
+1 – Evidências 
+
+**Trabalho_testeUCB.mp4**
